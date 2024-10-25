@@ -24,7 +24,7 @@ pipeline{
                   SONAR_HOST_URL = "http://43.205.144.5:9000/"
                 }
               steps {
-                   withCredentials([string(credentialsId: '55e775c6-7b5d-48aa-a866-8a8e9f36c01e', variable: 'SONAR_AUTH_TOKEN')]) {
+                   withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
                       bat '''
                          mvn sonar:sonar \
                             -Dsonar.login=$SONAR_AUTH_TOKEN \
