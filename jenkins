@@ -21,14 +21,14 @@ pipeline{
 
         stage('Static Code Analysis') {
               environment {
-                  sonar-server = "http://43.205.144.5:9000/"
+                  SONAR_HOST_URL = "http://43.205.144.5:9000/"
                 }
               steps {
                    withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
                       bat '''
-                         mvn sonar:sonar \
-                            -Dsonar.login=$SONAR_AUTH_TOKEN \
-                            -Dsonar.host.url=${SONAR-SERVER}
+                         mvn sonar:sonar ^
+                            -Dsonar.login=%SONAR_AUTH_TOKEN% ^
+                            -Dsonar.host.url=%SONAR_HOST_URL%
                         '''
                     }
                 }
