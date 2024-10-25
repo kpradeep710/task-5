@@ -15,20 +15,25 @@ pipeline{
         stage('Build') {
             steps {
                 echo "build the maven project"
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
 
-        stage('SonarQube analysis') {
-                   //    def scannerHome = tool 'sonar-scanner-'4.0';
-                steps{
-                    withSonarQubeEnv('sonar-server-10.6') { 
-                             // If you have configured more than one global server connection, you can specify its name
-                             //      sh "${scannerHome}/bin/sonar-scanner"
-                             sh "mvn sonar:sonar"
+        stage('Static Code Analysis') {
+              environment {
+                  SONAR_HOST_URL = "http://43.205.144.5:9000/"
+                }
+              steps {
+                   withCredentials([string(credentialsId: 'sonarQube', variable: 'SONAR_AUTH_TOKEN')]) {
+                      bat '''
+                         mvn sonar:sonar \
+                            -Dsonar.login=$SONAR_AUTH_TOKEN \
+                            -Dsonar.host.url=${SONAR_HOST_URL}
+                        '''
                     }
                 }
-            }                
+            
+        }             
     }
 
 }
