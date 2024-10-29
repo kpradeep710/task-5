@@ -48,8 +48,8 @@ pipeline {
                                           nexusUrl: "${NEXUS_URL}", 
                                           nexusVersion: 'nexus3',
                                           protocol: 'http',
-                                          repository: 'pradeep-snapshot', 
-                                          version: '1.0-SNAPSHOT'
+                                          repository: 'task-snapshot', 
+                                          version: '3.0-SNAPSHOT'
                 }
             }
         }
