@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-         PATH = "${env.PATH};C:\\Program Files\\apache-maven-3.9.3-bin\\apache-maven-3.9.3\\bin"
+        JAVA_HOME: '/C/Program Files/Java/jdk-17'
+        PATH = "${env.PATH};C:\\Program Files\\apache-maven-3.9.3-bin\\apache-maven-3.9.3\\bin"
         SONARQUBE_SERVER = 'sonar-server-10.6'  // Name of the SonarQube server configured in Jenkins
         NEXUS_URL = 'http://13.233.167.153:8080/repository/maven-releases/'
         NEXUS_CREDENTIALS_ID = '4b3fb957-a0b3-40a2-86f5-8d377c1bf5db'
