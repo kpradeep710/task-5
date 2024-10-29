@@ -39,15 +39,19 @@ pipeline {
         stage('Upload to Nexus') {
             steps {
                 script {
-                    nexusArtifactUploader artifacts: [[artifactId: 'app-artifact', classifier: '', file: 'target/01-maven-web-app.war', type: 'war']], 
-                        credentialsId: "${NEXUS_CREDENTIALS_ID}", 
-                        groupId: 'com.example', 
-                        nexusUrl: "${NEXUS_URL}", 
-                        repository: 'maven-releases', 
-                        version: '1.0.0'
+                    nexusArtifactUploader artifacts: [[artifactId: 'app-artifact', 
+                                                       classifier: '', 
+                                                       file: 'target/01-maven-web-app.war', 
+                                                       type: 'war']], 
+                                          credentialsId: "${NEXUS_CREDENTIALS_ID}", 
+                                          groupId: 'com.example', 
+                                          nexusUrl: "${NEXUS_URL}", 
+                                          repository: 'maven-releases', 
+                                          version: '1.0.0'
                 }
             }
         }
+
 
         stage('Deploy to EC2') {
             steps {
