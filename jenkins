@@ -39,13 +39,15 @@ pipeline {
         stage('Upload to Nexus') {
             steps {
                 script {
-                    nexusArtifactUploader artifacts: [[artifactId: 'app-artifact', 
+                    nexusArtifactUploader artifacts: [[artifactId: '01-maven-web-app', 
                                                        classifier: '', 
                                                        file: 'target/01-maven-web-app.war', 
                                                        type: 'war']], 
                                           credentialsId: "${NEXUS_CREDENTIALS_ID}", 
-                                          groupId: 'com.example', 
+                                          groupId: 'in.task-5', 
                                           nexusUrl: "${NEXUS_URL}", 
+                                          nexusVersion: 'nexus3',
+                                          protocol: 'http',
                                           repository: 'maven-releases', 
                                           version: '1.0.0'
                 }
