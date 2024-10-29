@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     environment {
-        PATH = "$PATH:/C:/Program Files/apache-maven-3.9.3-bin/apache-maven-3.9.3/bin"
+         PATH = "${env.PATH};C:\\Program Files\\apache-maven-3.9.3-bin\\apache-maven-3.9.3\\bin"
         SONARQUBE_SERVER = 'sonar-server-10.6'  // Name of the SonarQube server configured in Jenkins
         NEXUS_URL = 'http://13.233.167.153:8080/repository/maven-releases/'
         NEXUS_CREDENTIALS_ID = '4b3fb957-a0b3-40a2-86f5-8d377c1bf5db'
         EC2_USER = 'ec2-user'
         EC2_HOST = 'ec2-65-1-1-125.ap-south-1.compute.amazonaws.com'
-        PEM_FILE_PATH = 'C:/Documents/k.pradeepkumar.pem' // path to .pem file for SSH access to EC2
+        PEM_FILE_PATH = 'C:\\Documents\\k.pradeepkumar.pem' // path to .pem file for SSH access to EC2
     }
 
     stages {
@@ -21,7 +21,7 @@ pipeline {
         stage('Build on Dynamic Agent') {
             steps {
                 // Adjust Maven commands as per project requirements
-                bat 'mvn clean install -DskipTests'
+                bat 'mvn clean package'
             }
         }
 
@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonar-server-10.6') { 
-                        bat 'mvn sonar:sonar -Dsonar.host.url=http://13.233.64.190:9000'
+                        bat 'mvn sonar:sonar'
                     }
                 }
             }
@@ -38,9 +38,7 @@ pipeline {
         stage('Upload to Nexus') {
             steps {
                 script {
-                    nexusArtifactUploader artifacts: [[artifactId: 'app-artifact', 
-                        classifier: '', file: 'target/01-maven-web-app.war', 
-                        type: 'war']], 
+                    nexusArtifactUploader artifacts: [[artifactId: 'app-artifact', classifier: '', file: 'target/01-maven-web-app.war', type: 'war']], 
                         credentialsId: "${NEXUS_CREDENTIALS_ID}", 
                         groupId: 'com.example', 
                         nexusUrl: "${NEXUS_URL}", 
