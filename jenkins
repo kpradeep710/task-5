@@ -5,7 +5,7 @@ pipeline {
         JAVA_HOME= 'C:/Program Files/Java/jdk-17'
         PATH = "${env.PATH};C:\\Program Files\\apache-maven-3.9.3-bin\\apache-maven-3.9.3\\bin"
         SONARQUBE_SERVER = 'sonar-server-10.6'  // Name of the SonarQube server configured in Jenkins
-        NEXUS_URL = 'http://15.206.146.172:8080/repository/admin-repository'
+        NEXUS_URL = 'http://15.206.146.172:8080'
         NEXUS_CREDENTIALS_ID = '85e80276-d23a-4c88-80e0-279ce13da1cf'
         EC2_USER = 'ec2-user'
         EC2_HOST = '15.206.205.252'
