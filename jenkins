@@ -41,13 +41,13 @@ pipeline {
                 script {
                     nexusArtifactUploader artifacts: [[artifactId: '01-maven-web-app', 
                                                        classifier: '', 
-                                                       file: 'target/01-maven-web-app.war', 
+                                                       file: '01-maven-web-app.war', 
                                                        type: 'war']], 
                                           credentialsId: "${NEXUS_CREDENTIALS_ID}", 
                                           groupId: 'in.task-5', 
-                                          nexusUrl: "${NEXUS_URL}/repository/admin-repository", 
+                                          nexusUrl: "${NEXUS_URL}", 
                                           nexusVersion: 'nexus3',
-                                          repositoryid: 'admin-repository', 
+                                          nexusRepositoryId: 'admin-repository', 
                                           version: '3.0-SNAPSHOT'
                 }
             }
