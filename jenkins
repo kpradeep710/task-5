@@ -45,8 +45,7 @@ pipeline {
                                                        type: 'war']], 
                                           credentialsId: "${NEXUS_CREDENTIALS_ID}", 
                                           groupId: 'in.task-5', 
-                                          nexusUrl: '${NEXUS_URL}', 
-                                          nexusVersion: 'nexus3',
+                                          nexusUrl: '${env.NEXUS_URL}/repository/admin-repository",
                                           nexusRepositoryId: 'admin-repository', 
                                           version: '3.0-SNAPSHOT'
                 }
