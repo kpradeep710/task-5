@@ -41,7 +41,7 @@ pipeline {
                 script {
                     nexusArtifactUploader artifacts: [[artifactId: '01-maven-web-app', 
                                                        classifier: '', 
-                                                       file: '01-maven-web-app.war', 
+                                                       file: 'target/01-maven-web-app.war', 
                                                        type: 'war']], 
                                           credentialsId: "${NEXUS_CREDENTIALS_ID}", 
                                           groupId: 'in.task-5', 
