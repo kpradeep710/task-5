@@ -47,7 +47,6 @@ pipeline {
                                           groupId: 'in.task-5', 
                                           nexusUrl: "${NEXUS_URL}", 
                                           nexusVersion: 'nexus3',
-                                          protocol: 'http',
                                           repository: 'task-snapshot', 
                                           version: '3.0-SNAPSHOT'
                 }
