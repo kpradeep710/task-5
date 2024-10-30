@@ -47,7 +47,7 @@ pipeline {
                                           groupId: 'in.task-5', 
                                           nexusUrl: "${NEXUS_URL}/repository/admin-repository", 
                                           nexusVersion: 'nexus3',
-                                          nexusRepositoryId: 'admin-repository', 
+                                          repositoryid: 'admin-repository', 
                                           version: '3.0-SNAPSHOT'
                 }
             }
