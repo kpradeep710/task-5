@@ -39,7 +39,7 @@ pipeline {
         stage('Upload to Nexus') {
             steps {
                 script {
-                    nexusArtifactUploader artifacts: [[artifactId: '01-maven-web-app', 
+                    nexusArtifactUploader artifacts: [[artifactId: 'task-5', 
                                                        classifier: '', 
                                                        file: 'target/01-maven-web-app.war', 
                                                        type: 'war']], 
