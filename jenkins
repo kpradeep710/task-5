@@ -46,7 +46,7 @@ pipeline {
                                           credentialsId: "${NEXUS_CREDENTIALS_ID}", 
                                           groupId: 'in.task-5', 
                                           nexusUrl: "${env.NEXUS_URL}",
-                                          nexusRepositoryId: 'maven-releases', 
+                                          repository: 'maven-releases', 
                                           version: '1.0-SNAPSHOT'
                 }
             }
