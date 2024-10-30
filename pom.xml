@@ -10,8 +10,8 @@
 
   <repositories>
     <repository>
-        <id>admin-repository</id>
-        <url>http://15.206.146.172:8080/repository/admin-repository</url>
+        <id>maven-releases</id>
+        <url>http://15.206.146.172:8080/repository/maven-releases</url>
     </repository>
 </repositories>
 <dependencies>
