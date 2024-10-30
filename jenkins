@@ -58,7 +58,7 @@ pipeline {
                 sshagent(credentials: ['ec2-ssh-credentials']) {
                     // Copy artifact to EC2
                     bat '''
-                    scp -o StrictHostKeyChecking=no -i ${PEM_FILE_PATH} target/app.war ${EC2_USER}@${EC2_HOST}:/home/${EC2_USER}/01-maven-web-app.war
+                    scp -o StrictHostKeyChecking=no -i ${PEM_FILE_PATH} target/01-maven-web-app.war ${EC2_USER}@${EC2_HOST}:/home/${EC2_USER}/01-maven-web-app.war
                     '''
                     
                     // Run deployment script on EC2
