@@ -11,7 +11,7 @@ pipeline {
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         NEXUS_URL = 'http://localhost:8082'
         REMOTE_USER = 'admin'               
-        REMOTE_HOST = 'http://localhost:8083/'
+        REMOTE_HOST = 'localhost'
         WAR_FILE = 'target/01-maven-web-app.war'     
         REMOTE_TOMCAT_DIR = '/opt/tomcat/webapps' 
     }
