@@ -19,7 +19,7 @@ pipeline {
         stage('Build on Dynamic Agent') {
             steps {
                 // Adjust Maven commands as per project requirements
-                sh 'mvn clean install -DskipTests'
+                sh 'mvn clean install package'
             }
         }
 
