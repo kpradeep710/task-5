@@ -10,7 +10,7 @@ pipeline {
         SONARQUBE_SERVER = 'sonar-server-10.6'  // Name of the SonarQube server configured in Jenkins
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         ARTIFACT_ID = '01-maven-web-app'
-        GROUP_ID = 'in.task-5'
+        GROUP_ID = 'in.ashokit'
         VERSION = '3.0-SNAPSHOT'
         WAR_FILE = "target/01-maven-web-app.war"
         NEXUS_URL = 'http://localhost:8082'
