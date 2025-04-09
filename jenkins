@@ -7,7 +7,7 @@ pipeline {
     environment {
         JAVA_HOME= '/usr/lib/jvm/java-17-openjdk-amd64'
         SONARQUBE_SERVER = 'sonar-server-10.6'  // Name of the SonarQube server configured in Jenkins
-        NEXUS_URL = 'http://localhost:8082/'
+        NEXUS_URL = 'http://localhost:8082/repository/task-snapshot/'
         NEXUS_CREDENTIALS_ID = '433dfe35-b190-4c2d-880d-7a05346e87df'
     }
 
