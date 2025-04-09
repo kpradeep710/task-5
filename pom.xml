@@ -38,4 +38,16 @@
             </plugin>
         </plugins>
     </build>
+
+       
+    <distributionManagement>
+        <repository>
+            <id>task-release</id>
+            <url>http://localhost:8082/repository/task-release/</url>
+        </repository>
+        <snapshotRepository>
+            <id>task-snapshot</id>
+            <url>http://localhost:8082/repository/task-snapshot/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
