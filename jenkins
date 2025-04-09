@@ -2,6 +2,8 @@ pipeline {
     agent any
 
     environment {
+        JAVA_HOME= '/usr/bin/java'
+        PATH = "${env.PATH};C:\\Program Files\\apache-maven-3.9.3-bin\\apache-maven-3.9.3\\bin"
         SONARQUBE_SERVER = 'sonar-server-10.6'  // Name of the SonarQube server configured in Jenkins
         NEXUS_URL = 'http://localhost:8082/'
         NEXUS_CREDENTIALS_ID = '433dfe35-b190-4c2d-880d-7a05346e87df'
@@ -17,7 +19,7 @@ pipeline {
         stage('Build on Dynamic Agent') {
             steps {
                 // Adjust Maven commands as per project requirements
-                sh 'mvn clean package'
+                sh 'mvn clean install -DskipTests'
             }
         }
 
@@ -34,15 +36,38 @@ pipeline {
         stage('Upload to Nexus') {
             steps {
                 script {
-                    nexusArtifactUploader artifacts: [[artifactId: 'task-5', 
+                    nexusArtifactUploader artifacts: [[artifactId: '01-maven-web-app', 
                                                        classifier: '', 
                                                        file: 'target/01-maven-web-app.war', 
                                                        type: 'war']], 
                                           credentialsId: "${NEXUS_CREDENTIALS_ID}", 
                                           groupId: 'in.task-5', 
-                                          nexusUrl: "${env.NEXUS_URL}",
-                                          repository: 'maven-releases', 
-                                          version: '1.0-SNAPSHOT'
+                                          nexusUrl: "${NEXUS_URL}", 
+                                          nexusVersion: 'nexus3',
+                                          protocol: 'http',
+                                          repository: 'task-snapshot', 
+                                          version: '3.0-SNAPSHOT'
+                }
+            }
+        }
+
+
+        stage('Deploy to EC2') {
+            steps {
+                sshagent(credentials: ['ec2-ssh-credentials']) {
+                    // Copy artifact to EC2
+                    bat '''
+                    scp -o StrictHostKeyChecking=no -i ${PEM_FILE_PATH} target/app.war ${EC2_USER}@${EC2_HOST}:/home/${EC2_USER}/01-maven-web-app.war
+                    '''
+                    
+                    // Run deployment script on EC2
+                    bat '''
+                    ssh -o StrictHostKeyChecking=no -i ${PEM_FILE_PATH} ${EC2_USER}@${EC2_HOST} << EOF
+                    sudo systemctl stop maven-web-app
+                    sudo cp /home/${EC2_USER}/01-maven-web-app.war 
+                    sudo systemctl start maven-web-app
+                    EOF
+                    '''
                 }
             }
         }
