@@ -17,7 +17,7 @@ pipeline {
         stage('Build on Dynamic Agent') {
             steps {
                 // Adjust Maven commands as per project requirements
-                sh 'mvn clean package
+                sh 'mvn clean package'
             }
         }
 
