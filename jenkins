@@ -2,13 +2,19 @@ pipeline {
     agent any
 
     tools {
-        maven 'maven-3.9' // Make sure this name matches Global Tool Config
+        maven 'maven-3.9' // Ensure this name matches Global Tool Config
     }
+
     environment {
-        JAVA_HOME= '/usr/lib/jvm/java-17-openjdk-amd64'
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
         SONARQUBE_SERVER = 'sonar-server-10.6'  // Name of the SonarQube server configured in Jenkins
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
-        NEXUS_URL = 'http://localhost:8082/repository/task-snapshot/'
+        ARTIFACT_ID = '01-maven-web-app'
+        GROUP_ID = 'in.task-5'
+        VERSION = '3.0-SNAPSHOT'
+        WAR_FILE = "target/01-maven-web-app.war"
+        NEXUS_URL = 'http://localhost:8082'
+        REPOSITORY = 'task-snapshot'
     }
 
     stages {
@@ -18,17 +24,16 @@ pipeline {
             }
         }
 
-        stage('Build on Dynamic Agent') {
+        stage('Build') {
             steps {
-                // Adjust Maven commands as per project requirements
-                sh 'mvn clean install package'
+                sh 'mvn clean package'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnv('sonar-server-10.6') { 
+                    withSonarQubeEnv("${SONARQUBE_SERVER}") {
                         sh 'mvn sonar:sonar'
                     }
                 }
@@ -38,40 +43,21 @@ pipeline {
         stage('Upload to Nexus') {
             steps {
                 script {
-                    nexusArtifactUploader artifacts: [[
-                        artifactId: '01-maven-web-app',
-                        classifier: '',
-                        file: 'target/01-maven-web-app.war',
-                        type: 'war'
-                    ]],
-                    credentialsId: "${NEXUS_CREDENTIALS_ID}",
-                    groupId: 'in.task-5',
-                    nexusUrl: 'localhost:8082',   
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    repository: 'task-snapshot', 
-                    version: '3.0-SNAPSHOT'
-                }
-            }
-        }
-
-
-        stage('Deploy to EC2') {
-            steps {
-                sshagent(credentials: ['ec2-ssh-credentials']) {
-                    // Copy artifact to EC2
-                    bat '''
-                    scp -o StrictHostKeyChecking=no -i ${PEM_FILE_PATH} target/app.war ${EC2_USER}@${EC2_HOST}:/home/${EC2_USER}/01-maven-web-app.war
-                    '''
-                    
-                    // Run deployment script on EC2
-                    bat '''
-                    ssh -o StrictHostKeyChecking=no -i ${PEM_FILE_PATH} ${EC2_USER}@${EC2_HOST} << EOF
-                    sudo systemctl stop maven-web-app
-                    sudo cp /home/${EC2_USER}/01-maven-web-app.war 
-                    sudo systemctl start maven-web-app
-                    EOF
-                    '''
+                    nexusArtifactUploader(
+                        artifacts: [[
+                            artifactId: "${ARTIFACT_ID}",
+                            classifier: '',
+                            file: "${WAR_FILE}",
+                            type: 'war'
+                        ]],
+                        credentialsId: "${NEXUS_CREDENTIALS_ID}",
+                        groupId: "${GROUP_ID}",
+                        nexusUrl: "${NEXUS_URL.replace('http://', '')}", // hostname only
+                        nexusVersion: 'nexus3',
+                        protocol: 'http',
+                        repository: "${REPOSITORY}",
+                        version: "${VERSION}"
+                    )
                 }
             }
         }
