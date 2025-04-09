@@ -7,8 +7,7 @@ pipeline {
     environment {
         JAVA_HOME= '/usr/lib/jvm/java-17-openjdk-amd64'
         SONARQUBE_SERVER = 'sonar-server-10.6'  // Name of the SonarQube server configured in Jenkins
-        NEXUS_URL = 'http://localhost:8082/repository/task-snapshot/'
-        NEXUS_CREDENTIALS_ID = '	fe795498-37a1-4067-83b1-90b17aeac90a'
+        NEXUS_CREDENTIALS_ID = 'fe795498-37a1-4067-83b1-90b17aeac90a'
     }
 
     stages {
@@ -42,9 +41,9 @@ pipeline {
                                                        classifier: '', 
                                                        file: 'target/01-maven-web-app.war', 
                                                        type: 'war']], 
-                                          credentialsId: "${NEXUS_CREDENTIALS_ID}", 
+                                          credentialsId: 'nexus-credentials', 
                                           groupId: 'in.ashokit', 
-                                          nexusUrl: "${NEXUS_URL}", 
+                                          nexusUrl: 'http://localhost:8082/repository/task-snapshot/', 
                                           nexusVersion: 'nexus3',
                                           protocol: 'http',
                                           repository: 'task-snapshot', 
