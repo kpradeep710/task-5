@@ -45,7 +45,7 @@ pipeline {
                         type: 'war'
                     ]],
                     credentialsId: "${NEXUS_CREDENTIALS_ID}",
-                    groupId: 'in.ashokit',
+                    groupId: 'in.task-5',
                     nexusUrl: 'localhost:8082',   
                     nexusVersion: 'nexus3',
                     protocol: 'http',
