@@ -10,6 +10,10 @@ pipeline {
         SONARQUBE_SERVER = 'sonar-server-10.6'  // Name of the SonarQube server configured in Jenkins
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         NEXUS_URL = 'http://localhost:8082'
+        REMOTE_USER = 'tomcat'               
+        REMOTE_HOST = 'http://localhost:8083/'
+        WAR_FILE = 'target/01-maven-web-app.war'     
+        REMOTE_TOMCAT_DIR = '/opt/tomcat/webapps' 
     }
 
     stages {
@@ -53,6 +57,22 @@ pipeline {
                         repository: 'task-snapshot',
                         version: '3.0-SNAPSHOT'
                     )
+                }
+            }
+        }
+
+        stage('Deploy WAR to Tomcat') {
+            steps {
+                sshagent(credentials: ['tomcat-ssh-creds']) {
+                    sh """
+                    echo "Copying WAR file to remote Tomcat server..."
+                    scp -o StrictHostKeyChecking=no ${WAR_FILE} ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_TOMCAT_DIR}/your-app.war
+
+                    echo "Restarting Tomcat on remote server..."
+                    ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} << EOF
+                      sudo systemctl restart tomcat
+                    EOF
+                    """
                 }
             }
         }
