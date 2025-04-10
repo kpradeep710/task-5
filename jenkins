@@ -64,7 +64,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 withCredentials([file(credentialsId: 'ec2-key', variable: 'PEM_FILE')]) {
-                    sh 'scp -i "/var/lib/jenkins/workspace/pipeline-project/pradeepkumar.pem" target/01-maven-web-app.war ec2-user@3.110.102.72:/home/ec2-user/'
+                    sh 'scp -i "/var/lib/jenkins/workspace/pipeline-project/pradeepkumar.pem" target/01-maven-web-app.war ec2-user@3.110.204.113:/home/ec2-user/'
                 }
             }
         }
