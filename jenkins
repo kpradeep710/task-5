@@ -63,9 +63,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                withCredentials([file(credentialsId: 'ec2-key', variable: 'PEM_FILE')]) {
                     sh scp -i 'C:/Users/nagub/aws-cli/pradeepkumar.pem' target/01-maven-web-app.war ec2-user@3.110.204.113:/home/ec2-user/
-                }
             }
         }
     }
