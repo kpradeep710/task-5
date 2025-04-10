@@ -61,19 +61,12 @@ pipeline {
             }
         }
 
-        stage('Deploy WAR to Tomcat') {
+        stage('Deploy') {
             steps {
-                sshagent(credentials: ['tomcat-ssh-creds']) {
-                    sh """
-                    echo "Copying WAR file to remote Tomcat server..."
-                    scp -o StrictHostKeyChecking=no ${WAR_FILE} ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_TOMCAT_DIR}/your-app.war
-
-                    echo "Restarting Tomcat on remote server..."
-                    ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} << EOF
-                      sudo systemctl restart tomcat
-                    EOF
-                    """
-                }
+                echo "connected to ec2-instance and ready to deploy"
+                sh '''
+                scp -i C:/Users/nagub/aws-cli/pradeepkumar.pem target/01-maven-web-app.war ec2-user@3.110.102.72:/home/ec2-user/
+                '''
             }
         }
     }
