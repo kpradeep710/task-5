@@ -10,10 +10,6 @@ pipeline {
         SONARQUBE_SERVER = 'sonar-server-10.6'  // Name of the SonarQube server configured in Jenkins
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         NEXUS_URL = 'http://localhost:8082'
-        REMOTE_USER = 'admin'               
-        REMOTE_HOST = 'localhost'
-        WAR_FILE = 'target/01-maven-web-app.war'     
-        REMOTE_TOMCAT_DIR = '/opt/tomcat/webapps' 
     }
 
     stages {
