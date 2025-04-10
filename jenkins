@@ -61,7 +61,7 @@ pipeline {
             steps {
                 echo "connected to ec2-instance and ready to deploy"
                 sh '''
-                ssh -i "C:/Users/nagub/aws-cli/pradeepkumar.pem" target/01-maven-web-app.war ec2-user@3.110.204.113:/home/ec2-user/
+                scp -i /var/lib/jenkins/.ssh/pradeepkumar.pem -o StrictHostKeyChecking=no target/01-maven-web-app.war ec2-user@3.110.204.113:/home/ec2-user/
                 '''
             }
         }
